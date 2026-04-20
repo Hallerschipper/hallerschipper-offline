@@ -1,0 +1,1 @@
+Hallerschipper App – Offline-Version\n\n1. ZIP entpacken\n2. Alle Dateien in GitHub hochladen und alte ersetzen\n3. Commit changes\n4. App einmal mit Internet öffnen\n5. Danach funktioniert sie auch offline\n

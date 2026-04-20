@@ -1,0 +1,23 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#edf5fb;color:#123}
+.header{background:linear-gradient(180deg,#0a5b9d,#0f76c5);color:#fff;padding:18px 16px;display:flex;align-items:center;gap:16px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.logo{width:88px;height:88px;border-radius:50%;flex:0 0 auto;box-shadow:0 4px 12px rgba(0,0,0,.25);background:#fff}
+h1{margin:0;font-size:2rem}
+.subtitle{margin:6px 0 0 0;font-size:1rem;opacity:.95}
+.wrap{max-width:940px;margin:18px auto;padding:0 14px 30px}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+#search,#categoryFilter{width:100%;padding:16px 18px;font-size:1.1rem;border-radius:14px;border:2px solid #d9e3ee;outline:none;background:#fff}
+#search:focus,#categoryFilter:focus{border-color:#0f76c5}
+.filters{margin-top:12px}
+.meta{margin:12px 2px 8px;color:#496170;font-size:1rem}
+.song-list{list-style:none;margin:0;padding:0}
+.song-list li{margin:10px 0}
+.song-btn{width:100%;text-align:left;padding:16px 18px;border:none;border-radius:14px;background:#f7fbff;box-shadow:0 2px 6px rgba(0,0,0,.06);font-size:1.12rem;cursor:pointer}
+.song-btn:hover,.song-btn:active{background:#e8f3fc}
+.song-sub{display:block;color:#4e6a79;font-size:.95rem;margin-top:4px}
+.hidden{display:none}
+.back-btn{border:none;border-radius:12px;background:#0f76c5;color:#fff;padding:12px 16px;font-size:1rem;cursor:pointer;margin-bottom:12px}
+#songTitle{margin:8px 0 14px;font-size:1.8rem;color:#0b4f88}
+.badge{display:inline-block;background:#e8f3fc;color:#0b4f88;padding:8px 12px;border-radius:999px;font-size:.95rem;margin-bottom:10px}
+.lyrics{white-space:pre-wrap;font-family:Arial,Helvetica,sans-serif;font-size:1.2rem;line-height:1.65;margin:0}
+@media (max-width:640px){.logo{width:74px;height:74px}h1{font-size:1.75rem}.song-btn,.lyrics,#search,#categoryFilter{font-size:1.05rem}}
