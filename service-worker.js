@@ -1,56 +1,49 @@
-const CACHE_NAME = 'hallerschipper-offline-v2';
+const CACHE_NAME = 'hallerschipper-offline-v3';
 
-const ASSETS = [
+const APP_SHELL = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './songs.js',
   './logo.png',
   './manifest.webmanifest'
 ];
 
-// Installation
+// Installation: App-Dateien speichern
 self.addEventListener('install', event => {
   self.skipWaiting();
 
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
   );
 });
 
-// Alte Cache-Versionen löschen
+// Alte Caches löschen
 self.addEventListener('activate', event => {
-
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
+    caches.keys()
+      .then(keys =>
+        Promise.all(
+          keys
+            .filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+        )
       )
-    ).then(() => self.clients.claim())
+      .then(() => self.clients.claim())
   );
-
 });
 
 // Dateien laden
 self.addEventListener('fetch', event => {
-
   if (event.request.method !== 'GET') return;
 
-  // songs.js immer zuerst vom Internet holen
-  if (event.request.url.includes('songs.js')) {
+  const url = new URL(event.request.url);
 
+  // songs.js: immer zuerst online prüfen
+  if (url.pathname.endsWith('/songs.js')) {
     event.respondWith(
-
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-store' })
         .then(response => {
-
           const copy = response.clone();
 
           caches.open(CACHE_NAME).then(cache => {
@@ -58,35 +51,27 @@ self.addEventListener('fetch', event => {
           });
 
           return response;
-
         })
         .catch(() => caches.match(event.request))
-
     );
 
     return;
-
   }
 
-  // Alle anderen Dateien zuerst aus dem Cache
+  // App-Dateien: zuerst Cache, dann Internet
   event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
 
-    caches.match(event.request).then(response => {
-
-      return response || fetch(event.request).then(networkResponse => {
-
-        const copy = networkResponse.clone();
+      return fetch(event.request).then(response => {
+        const copy = response.clone();
 
         caches.open(CACHE_NAME).then(cache => {
           cache.put(event.request, copy);
         });
 
-        return networkResponse;
-
+        return response;
       });
-
     })
-
   );
-
 });
